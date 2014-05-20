@@ -13,11 +13,11 @@ endif
 bin_PROGRAMS =
 
 if BUILD_BITCOIND
-  bin_PROGRAMS += bitcoind
+  bin_PROGRAMS += aditicoind
 endif
 
 if BUILD_BITCOIN_CLI
-  bin_PROGRAMS += bitcoin-cli
+  bin_PROGRAMS += aditicoin-cli
 endif
 
 SUBDIRS = . $(BUILD_QT) $(BUILD_TEST)
@@ -32,6 +32,7 @@ BITCOIN_CORE_H = \
   bloom.h \
   chainparams.h \
   checkpoints.h \
+  checkpointsync.h \
   checkqueue.h \
   clientversion.h \
   coincontrol.h \
@@ -57,6 +58,40 @@ BITCOIN_CORE_H = \
   rpcprotocol.h \
   rpcserver.h \
   script.h \
+  scrypt-jane/scrypt-jane.h \
+  scrypt-jane/code/scrypt-jane-test-vectors.h \
+  scrypt-jane/code/scrypt-jane-salsa64.h \
+  scrypt-jane/code/scrypt-jane-salsa.h \
+  scrypt-jane/code/scrypt-jane-romix-template.h \
+  scrypt-jane/code/scrypt-jane-romix-basic.h \
+  scrypt-jane/code/scrypt-jane-romix.h \
+  scrypt-jane/code/scrypt-jane-portable-x86.h \
+  scrypt-jane/code/scrypt-jane-portable.h \
+  scrypt-jane/code/scrypt-jane-pbkdf2.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa-xop.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa-sse2.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa-avx.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64-xop.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64-ssse3.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64-sse2.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64-avx2.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64-avx.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa64.h \
+  scrypt-jane/code/scrypt-jane-mix_salsa.h \
+  scrypt-jane/code/scrypt-jane-mix_chacha-xop.h \
+  scrypt-jane/code/scrypt-jane-mix_chacha-ssse3.h \
+  scrypt-jane/code/scrypt-jane-mix_chacha-sse2.h \
+  scrypt-jane/code/scrypt-jane-mix_chacha-avx.h \
+  scrypt-jane/code/scrypt-jane-mix_chacha.h \
+  scrypt-jane/code/scrypt-jane-hash_skein512.h \
+  scrypt-jane/code/scrypt-jane-hash_sha512.h \
+  scrypt-jane/code/scrypt-jane-hash_sha256.h \
+  scrypt-jane/code/scrypt-jane-hash_keccak.h \
+  scrypt-jane/code/scrypt-jane-hash_blake512.h \
+  scrypt-jane/code/scrypt-jane-hash_blake256.h \
+  scrypt-jane/code/scrypt-jane-hash.h \
+  scrypt-jane/code/scrypt-jane-chacha.h \
+  scrypt-jane/code/scrypt-conf.h \
   serialize.h \
   sync.h \
   threadsafety.h \
@@ -94,6 +129,7 @@ libbitcoin_server_a_SOURCES = \
   bloom.cpp \
   chainparams.cpp \
   checkpoints.cpp \
+  checkpointsync.cpp \
   coins.cpp \
   init.cpp \
   keystore.cpp \
@@ -134,6 +170,7 @@ libbitcoin_common_a_SOURCES = \
   sync.cpp \
   util.cpp \
   version.cpp \
+  scrypt-jane/scrypt-jane.c \
   $(BITCOIN_CORE_H)
 
 libbitcoin_cli_a_SOURCES = \
@@ -144,35 +181,35 @@ nodist_libbitcoin_common_a_SOURCES = $(top_srcdir)/src/obj/build.h
 #
 
 # bitcoind binary #
-bitcoind_LDADD = \
+aditicoind_LDADD = \
   libbitcoin_server.a \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(LIBLEVELDB) \
   $(LIBMEMENV)
 if ENABLE_WALLET
-bitcoind_LDADD += libbitcoin_wallet.a
+aditicoind_LDADD += libbitcoin_wallet.a
 endif
-bitcoind_SOURCES = bitcoind.cpp
+aditicoind_SOURCES = bitcoind.cpp
 #
 
 if TARGET_WINDOWS
-bitcoind_SOURCES += bitcoind-res.rc
+aditicoind_SOURCES += bitcoind-res.rc
 endif
 
 AM_CPPFLAGS += $(BDB_CPPFLAGS)
-bitcoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
+aditicoind_LDADD += $(BOOST_LIBS) $(BDB_LIBS)
 
 # bitcoin-cli binary #
-bitcoin_cli_LDADD = \
+aditicoin_cli_LDADD = \
   libbitcoin_cli.a \
   libbitcoin_common.a \
   $(BOOST_LIBS)
-bitcoin_cli_SOURCES = bitcoin-cli.cpp
+aditicoin_cli_SOURCES = bitcoin-cli.cpp
 #
 
 if TARGET_WINDOWS
-bitcoin_cli_SOURCES += bitcoin-cli-res.rc
+aditicoin_cli_SOURCES += bitcoin-cli-res.rc
 endif
 
 # NOTE: This dependency is not strictly necessary, but without it make may try to build both in parallel, which breaks the LevelDB build system in a race
