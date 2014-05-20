@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2013 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -24,8 +25,7 @@ public:
     enum Unit
     {
         BTC,
-        mBTC,
-        uBTC
+        mBTC
     };
 
     //! @name Static API

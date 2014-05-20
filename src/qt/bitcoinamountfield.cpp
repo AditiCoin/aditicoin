@@ -1,4 +1,5 @@
 // Copyright (c) 2011-2014 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -19,7 +20,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0),
     currentUnit(-1)
 {
-    nSingleStep = 100000; // satoshis
+    nSingleStep = 100; 1.0 XAD per KB
 
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());

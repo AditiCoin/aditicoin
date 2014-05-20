@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>About Bitcoin Core</string>
+   <string>About AditiCoin Core</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
@@ -50,7 +50,7 @@
           <cursorShape>IBeamCursor</cursorShape>
          </property>
          <property name="text">
-          <string>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</string>
+          <string>&lt;b&gt;AditiCoin Core&lt;/b&gt; version</string>
          </property>
          <property name="textInteractionFlags">
           <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
@@ -86,7 +86,23 @@
       </layout>
      </item>
      <item>
-      <widget class="QLabel" name="copyrightLabel">
+      <widget class="QLabel" name="copyrightLabel1">
+       <property name="cursor">
+        <cursorShape>IBeamCursor</cursorShape>
+       </property>
+       <property name="text">
+        <string notr="true">Copyright &amp;copy; YYYY The AditiCoin Core Developers</string>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::RichText</enum>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+       </property>
+      </widget>
+     </item>
+      <item>
+      <widget class="QLabel" name="copyrightLabel2">
        <property name="cursor">
         <cursorShape>IBeamCursor</cursorShape>
        </property>
