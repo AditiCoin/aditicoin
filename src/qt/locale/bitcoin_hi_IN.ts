@@ -3,13 +3,13 @@
     <name>AboutDialog</name>
     <message>
         <location filename="../forms/aboutdialog.ui" line="+14"/>
-        <source>About Bitcoin Core</source>
-        <translation type="unfinished"/>
+        <source>About AditiCoin Core</source>
+        <translation>अदितिक्वाइन के बारे में </translation>
     </message>
     <message>
         <location line="+39"/>
-        <source>&lt;b&gt;Bitcoin Core&lt;/b&gt; version</source>
-        <translation type="unfinished"/>
+        <source>&lt;b&gt;AditiCoin Core&lt;/b&gt; version</source>
+        <translation>अदितिक्वाइन रूप </translation>
     </message>
     <message>
         <location line="+57"/>
@@ -19,7 +19,11 @@ This is experimental software.
 Distributed under the MIT/X11 software license, see the accompanying file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
 This product includes software developed by the OpenSSL Project for use in the OpenSSL Toolkit (http://www.openssl.org/) and cryptographic software written by Eric Young (eay@cryptsoft.com) and UPnP software written by Thomas Bernard.</source>
-        <translation type="unfinished"/>
+        <translation>यह एक प्रायोगिक सॉफ्टवेयर है।
+
+MIT/X11 सॉफ्टवेयर लाइसेंस के तहत वितरित किया गया है। साथमें जुड़े हुए COPYING फाईल को देखें अथवा http://www.opensource.org/licenses/mit-license.php पर देखें।
+
+इस सॉफ्टवेयरमें ओपनएसएसएल प्रोजेक्ट द्वारा(OpenSSL Project) विकसित ओपनएसएसएल टूलकिट (http://www.openssl.org/), एरिक यंग द्वारा लिखित क्रिप्टोग्राफिक सॉफ्टवेयर (eay@cryptsoft.com) और थॉमस बर्नार्ड द्वारा लिखित UPnP सॉफ्टवेयर शामिल हैं।</translation>
     </message>
     <message>
         <location filename="../utilitydialog.cpp" line="+29"/>
@@ -28,8 +32,8 @@ This product includes software developed by the OpenSSL Project for use in the O
     </message>
     <message>
         <location line="+0"/>
-        <source>The Bitcoin Core developers</source>
-        <translation type="unfinished"/>
+        <source>The AditiCoin Core developers</source>
+        <translation>अदितिक्वाइन मुख्य विकासक</translation>
     </message>
 </context>
 <context>
@@ -37,42 +41,42 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location filename="../forms/addressbookpage.ui" line="+30"/>
         <source>Double-click to edit address or label</source>
-        <translation>दो बार क्लिक करे पता या लेबल संपादन करने के लिए !</translation>
+        <translation>पता या लेबल संपादन करने के लिए दो बार क्लिक करे।</translation>
     </message>
     <message>
         <location line="+27"/>
         <source>Create a new address</source>
-        <translation>नया पता लिखिए !</translation>
+        <translation>नया पता लिखिए।</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;New</source>
-        <translation type="unfinished"/>
+        <translation>नया</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Copy the currently selected address to the system clipboard</source>
-        <translation>चुनिन्दा पते को सिस्टम क्लिपबोर्ड पर कापी करे !</translation>
+        <translation>चुनिन्दा पते को सिस्टम क्लिपबोर्ड पर कापी करें।</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation>कापी करें।</translation> 
     </message>
     <message>
         <location line="+52"/>
         <source>C&amp;lose</source>
-        <translation type="unfinished"/>
+        <translation>बंद करें।</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="+74"/>
         <source>&amp;Copy Address</source>
-        <translation>&amp;पता कॉपी करे</translation>
+        <translation>&amp;पता कापी करें।</translation>
     </message>
     <message>
         <location filename="../forms/addressbookpage.ui" line="-41"/>
         <source>Delete the currently selected address from the list</source>
-        <translation type="unfinished"/>
+        <translation>चुनिन्दा पते को सिस्टमसे मिटाए।</translation>
     </message>
     <message>
         <location line="+27"/>
@@ -87,42 +91,42 @@ This product includes software developed by the OpenSSL Project for use in the O
     <message>
         <location line="-27"/>
         <source>&amp;Delete</source>
-        <translation>&amp;मिटाए !!</translation>
+        <translation>&amp;मिटाए।</translation>
     </message>
     <message>
         <location filename="../addressbookpage.cpp" line="-30"/>
         <source>Choose the address to send coins to</source>
-        <translation type="unfinished"/>
+        <translation>सिक्के भेजने के लिए पता चुनिए।</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Choose the address to receive coins with</source>
-        <translation type="unfinished"/>
+        <translation>सिक्के पाने के लिए पता चुनिए।</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>C&amp;hoose</source>
-        <translation type="unfinished"/>
+        <translation>चुनिए।</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Sending addresses</source>
-        <translation type="unfinished"/>
+        <translation>भेजनेका पता</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Receiving addresses</source>
-        <translation type="unfinished"/>
+        <translation>पानेका पता</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>These are your Bitcoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
-        <translation type="unfinished"/>
+        <source>These are your AditiCoin addresses for sending payments. Always check the amount and the receiving address before sending coins.</source>
+        <translation>ये भुगतान भेजने के लिए आपके अदितिक्वाइन पते हैं। हमेशा सिक्के भेजने से पहले राशि और प्राप्त पते की जाँच करें।</translation>
     </message>
     <message>
         <location line="+4"/>
-        <source>These are your Bitcoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
-        <translation type="unfinished"/>
+        <source>These are your Aditicoin addresses for receiving payments. It is recommended to use a new receiving address for each transaction.</source>
+        <translation>ये भुगतान प्राप्त करने के लिए आपके अदितिक्वाइन पते हैं। प्रत्येक लेन-देन के लिए नया रिसीविंग पते का उपयोग करने के लिए सिफारिश की है।</translation>
     </message>
     <message>
         <location line="+7"/>
