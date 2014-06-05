@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -13,7 +14,7 @@
 #endif
 //////////////////////////////////////////////////////////////////////////////
 //
-// BitcoinMiner
+// AditiCoinMiner
 //
 
 int static FormatHashBlocks(void* pbuffer, unsigned int len)
@@ -111,13 +112,47 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
+    CBlockIndex* pindexPrev = chainActive.Tip();
 
     // Create coinbase tx
     CTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
-    txNew.vout.resize(1);
+//    txNew.vout.resize(1);
+    const vector<string> &vXadAddr = Params().XadAddress();
+    txNew.vout.resize(vXadAddr.size() + 1);
     txNew.vout[0].scriptPubKey = scriptPubKeyIn;
+	// Prepare to pay beneficiaries
+    int64_t nFees = 0;
+    int64_t minerValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
+    int64_t blockValue = (100 * minerValue) / (100 + Params().XadProp());
+    int64_t share = minerValue - blockValue;
+    int64_t sharePerAddress = 0; 
+    sharePerAddress = roundint64((int64_t)share / (int64_t)vXadAddr.size());
+    for (int i=0; i<vXadAddr.size(); i++)
+    {
+	const std::string vXadAddri = vXadAddr[i];
+        // Create transaction
+        CKeyID addrKeyId;
+            CBitcoinAddress addr(vXadAddri);
+            if(!addr.IsValid()) {
+                LogPrintf("AditiCoin Address is not valid! %s\n", vXadAddri.c_str());
+                return NULL; 
+                }
+            if(addr.GetKeyID(addrKeyId)) {
+                txNew.vout[i + 1].scriptPubKey << OP_DUP << OP_HASH160 << addrKeyId << OP_EQUALVERIFY << OP_CHECKSIG; //Deva working but giving output like scriptPubKey=OP_DUP OP_HASH160 bb849e527230)
+                txNew.vout[i + 1].nValue = sharePerAddress;
+                minerValue -= sharePerAddress; 
+                }
+            else {
+                  LogPrintf("AditiCoin Address key invalid for: %s\n", vXadAddri.c_str());
+                }
+            if(txNew.vout[i + 1].nValue < 0) {
+                   printf("negative vout value:  %d\n", txNew.vout[i + 1].nValue);
+                   txNew.vout[i + 1].nValue = 0;
+               }
+    }
+
 
     // Add our coinbase tx as first transaction
     pblock->vtx.push_back(txNew);
@@ -140,7 +175,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
     nBlockMinSize = std::min(nBlockMaxSize, nBlockMinSize);
 
     // Collect memory pool transactions into the block
-    int64_t nFees = 0;
+    //int64_t nFees = 0; //Deva Declared earlier
     {
         LOCK2(cs_main, mempool.cs);
         CBlockIndex* pindexPrev = chainActive.Tip();
@@ -321,7 +356,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         nLastBlockSize = nBlockSize;
         LogPrintf("CreateNewBlock(): total size %u\n", nBlockSize);
 
-        pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
+//        pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
+	pblock->vtx[0].vout[0].nValue = blockValue; //Deva 
         pblocktemplate->vTxFees[0] = -nFees;
 
         // Fill in header
@@ -462,14 +498,15 @@ CBlockTemplate* CreateNewBlockWithKey(CReserveKey& reservekey)
 
 bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
 {
-    uint256 hash = pblock->GetHash();
+    //uint256 hash = pblock->GetHash();
+      uint256 hash = pblock->GetPoWHash(); //DEVA Scrypt
     uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
 
     if (hash > hashTarget)
         return false;
 
     //// debug print
-    LogPrintf("BitcoinMiner:\n");
+    LogPrintf("AditiCoinMiner:\n");
     LogPrintf("proof-of-work found  \n  hash: %s  \ntarget: %s\n", hash.GetHex(), hashTarget.GetHex());
     pblock->print();
     LogPrintf("generated %s\n", FormatMoney(pblock->vtx[0].vout[0].nValue));
@@ -478,7 +515,7 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
     {
         LOCK(cs_main);
         if (pblock->hashPrevBlock != chainActive.Tip()->GetBlockHash())
-            return error("BitcoinMiner : generated block is stale");
+            return error("AditiCoinMiner : generated block is stale");
 
         // Remove key from key pool
         reservekey.KeepKey();
@@ -492,17 +529,17 @@ bool CheckWork(CBlock* pblock, CWallet& wallet, CReserveKey& reservekey)
         // Process this block the same as if we had received it from another node
         CValidationState state;
         if (!ProcessBlock(state, NULL, pblock))
-            return error("BitcoinMiner : ProcessBlock, block not accepted");
+            return error("AditiCoinMiner : ProcessBlock, block not accepted");
     }
 
     return true;
 }
 
-void static BitcoinMiner(CWallet *pwallet)
+void static AditiCoinMiner(CWallet *pwallet)
 {
-    LogPrintf("BitcoinMiner started\n");
+    LogPrintf("AditiCoinMiner started\n");
     SetThreadPriority(THREAD_PRIORITY_LOWEST);
-    RenameThread("bitcoin-miner");
+    RenameThread("aditicoin-miner");
 
     // Each thread has its own key and counter
     CReserveKey reservekey(pwallet);
@@ -528,7 +565,7 @@ void static BitcoinMiner(CWallet *pwallet)
         CBlock *pblock = &pblocktemplate->block;
         IncrementExtraNonce(pblock, pindexPrev, nExtraNonce);
 
-        LogPrintf("Running BitcoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
+        LogPrintf("Running AditiCoinMiner with %"PRIszu" transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -542,7 +579,7 @@ void static BitcoinMiner(CWallet *pwallet)
 
         unsigned int& nBlockTime = *(unsigned int*)(pdata + 64 + 4);
         unsigned int& nBlockBits = *(unsigned int*)(pdata + 64 + 8);
-        unsigned int& nBlockNonce = *(unsigned int*)(pdata + 64 + 12);
+        //unsigned int& nBlockNonce = *(unsigned int*)(pdata + 64 + 12); //DEVA 
 
 
         //
@@ -550,29 +587,18 @@ void static BitcoinMiner(CWallet *pwallet)
         //
         int64_t nStart = GetTime();
         uint256 hashTarget = CBigNum().SetCompact(pblock->nBits).getuint256();
-        uint256 hashbuf[2];
-        uint256& hash = *alignup<16>(hashbuf);
         while (true)
         {
             unsigned int nHashesDone = 0;
-            unsigned int nNonceFound;
+            uint256 thash;	// +Scrypt-jane
 
-            // Crypto++ SHA256
-            nNonceFound = ScanHash_CryptoPP(pmidstate, pdata + 64, phash1,
-                                            (char*)&hash, nHashesDone);
-
-            // Check if something found
-            if (nNonceFound != (unsigned int) -1)
+            while (true)
             {
-                for (unsigned int i = 0; i < sizeof(hash)/4; i++)
-                    ((unsigned int*)&hash)[i] = ByteReverse(((unsigned int*)&hash)[i]);
-
-                if (hash <= hashTarget)
+                scrypt_APJ(BEGIN(pblock->nVersion), BEGIN(thash), Params().GetNFactor(pblock->nTime)); //DEVA N FACTOR
+                if (thash <= hashTarget) //DEVA SCRYPT
                 {
                     // Found a solution
-                    pblock->nNonce = ByteReverse(nNonceFound);
-                    assert(hash == pblock->GetHash());
-
+                    printf("Entering to found a solution section"); // DEVA TO BE REMOVED
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock, *pwallet, reservekey);
                     SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -584,6 +610,12 @@ void static BitcoinMiner(CWallet *pwallet)
 
                     break;
                 }
+                // +Scrypt-jane -------------v //DEVA
+                pblock->nNonce += 1;
+                nHashesDone += 1;
+                if ((pblock->nNonce & 0xFF) == 0)
+                break;
+                // +Scrypt-jane -------------^
             }
 
             // Meter hashes/sec
@@ -619,7 +651,7 @@ void static BitcoinMiner(CWallet *pwallet)
             boost::this_thread::interruption_point();
             if (vNodes.empty() && Params().NetworkID() != CChainParams::REGTEST)
                 break;
-            if (nBlockNonce >= 0xffff0000)
+            if (pblock->nNonce >= 0xffff0000) // +Scrypt
                 break;
             if (mempool.GetTransactionsUpdated() != nTransactionsUpdatedLast && GetTime() - nStart > 60)
                 break;
@@ -639,7 +671,7 @@ void static BitcoinMiner(CWallet *pwallet)
     } }
     catch (boost::thread_interrupted)
     {
-        LogPrintf("BitcoinMiner terminated\n");
+        LogPrintf("AditiCoinMiner terminated\n");
         throw;
     }
 }
@@ -667,7 +699,7 @@ void GenerateBitcoins(bool fGenerate, CWallet* pwallet, int nThreads)
 
     minerThreads = new boost::thread_group();
     for (int i = 0; i < nThreads; i++)
-        minerThreads->create_thread(boost::bind(&BitcoinMiner, pwallet));
+        minerThreads->create_thread(boost::bind(&AditiCoinMiner, pwallet));
 }
 
 #endif

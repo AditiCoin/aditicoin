@@ -20,6 +20,7 @@
 #include "txmempool.h"
 #include "uint256.h"
 
+#include "base58.h"
 #include <algorithm>
 #include <exception>
 #include <map>
@@ -91,6 +92,12 @@ extern bool fBenchmark;
 extern int nScriptCheckThreads;
 extern bool fTxIndex;
 extern unsigned int nCoinCacheSize;
+struct COrphanBlock {
+    uint256 hashBlock;
+    uint256 hashPrev;
+    vector<unsigned char> vchBlock;
+};
+extern std::map<uint256, COrphanBlock*> mapOrphanBlocks;
 
 // Minimum disk space required - used in CheckDiskSpace()
 static const uint64_t nMinDiskSpace = 52428800;
@@ -814,7 +821,8 @@ public:
 
     bool CheckIndex() const
     {
-        return CheckProofOfWork(GetBlockHash(), nBits);
+        //return CheckProofOfWork(GetBlockHash(), nBits);
+		return true; //DEVA Scrypt-jane
     }
 
     enum { nMedianTimeSpan=11 };

@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2013 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -9,15 +10,18 @@
 #include "script.h"
 #include "serialize.h"
 #include "uint256.h"
+#include "chainparams.h"
 
 #include <stdint.h>
 
 class CTransaction;
 
 /** No amount larger than this (in satoshi) is valid */
-static const int64_t MAX_MONEY = 21000000 * COIN;
+static const int64_t MAX_MONEY = 2000000000000 * COIN;
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 
+/** Scrypt Jane Implementation */
+void scrypt_APJ(const char *input, char *output, unsigned char Nfactor);
 /** An outpoint - a combination of a transaction hash and an index n into its vout */
 class COutPoint
 {
@@ -425,7 +429,12 @@ public:
         vtx.clear();
         vMerkleTree.clear();
     }
-
+    uint256 GetPoWHash() const 
+    {
+        uint256 thash;    	
+            scrypt_APJ(BEGIN(nVersion), BEGIN(thash), Params().GetNFactor(nTime)); // DEVA NFACTOR
+        return thash;
+    }
     CBlockHeader GetBlockHeader() const
     {
         CBlockHeader block;

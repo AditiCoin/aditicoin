@@ -17,7 +17,7 @@
   <string>APPL</string>
 
   <key>CFBundleGetInfoString</key>
-  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@, Copyright © 2009-@COPYRIGHT_YEAR@ The Bitcoin Core developers</string>
+  <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@, Copyright © @COPYRIGHT_YEAR@ The AditiCoin Core Developers</string>
 
   <key>CFBundleShortVersionString</key>
   <string>@CLIENT_VERSION_MAJOR@.@CLIENT_VERSION_MINOR@</string>
@@ -29,10 +29,10 @@
   <string>????</string>
 
   <key>CFBundleExecutable</key>
-  <string>Bitcoin-Qt</string>
+  <string>AditiCoin-Qt</string>
 
   <key>CFBundleIdentifier</key>
-  <string>org.bitcoinfoundation.Bitcoin-Qt</string>
+  <string>org.aditicoinfoundation.AditiCoin-Qt</string>
 
   <key>CFBundleURLTypes</key>
   <array>
@@ -40,10 +40,10 @@
       <key>CFBundleTypeRole</key>
       <string>Editor</string>
       <key>CFBundleURLName</key>
-      <string>org.bitcoin.BitcoinPayment</string>
+      <string>org.aditicoin.AditiCoinPayment</string>
       <key>CFBundleURLSchemes</key>
       <array>
-        <string>bitcoin</string>
+        <string>aditicoin</string>
       </array>
     </dict>
   </array>
@@ -52,9 +52,9 @@
   <array>
     <dict>
       <key>UTTypeIdentifier</key>
-      <string>org.bitcoin.paymentrequest</string>
+      <string>org.aditicoin.paymentrequest</string>
       <key>UTTypeDescription</key>
-      <string>Bitcoin payment request</string>
+      <string>AditiCoin payment request</string>
       <key>UTTypeConformsTo</key>
       <array>
         <string>public.data</string>
@@ -65,7 +65,7 @@
         <string>application/x-bitcoin-payment-request</string>
         <key>public.filename-extension</key>
         <array>
-          <string>bitcoinpaymentrequest</string>
+          <string>aditicoinpaymentrequest</string>
         </array>
       </dict>
     </dict>
@@ -78,7 +78,7 @@
       <string>Editor</string>
       <key>LSItemContentTypes</key>
       <array>
-        <string>org.bitcoin.paymentrequest</string>
+        <string>org.aditicoin.paymentrequest</string>
       </array>
       <key>LSHandlerRank</key>
       <string>Owner</string>

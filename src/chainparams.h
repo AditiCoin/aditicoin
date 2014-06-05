@@ -1,5 +1,7 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2013 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
+
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -57,7 +59,10 @@ public:
     const vector<unsigned char>& AlertKey() const { return vAlertPubKey; }
     int GetDefaultPort() const { return nDefaultPort; }
     const CBigNum& ProofOfWorkLimit() const { return bnProofOfWorkLimit; }
-    int SubsidyHalvingInterval() const { return nSubsidyHalvingInterval; }
+    int SubsidyInterval() const { return nSubsidyInterval; }
+    int BaseHeight() const { return nBaseHeight; }
+    int MinReward() const { return nMinReward; }
+    int XadProp() const { return nXadProp; }
     virtual const CBlock& GenesisBlock() const = 0;
     virtual bool RequireRPCPassword() const { return true; }
     const string& DataDir() const { return strDataDir; }
@@ -66,6 +71,18 @@ public:
     const std::vector<unsigned char> &Base58Prefix(Base58Type type) const { return base58Prefixes[type]; }
     virtual const vector<CAddress>& FixedSeeds() const = 0;
     int RPCPort() const { return nRPCPort; }
+
+    unsigned char GetNFactor( int64_t nTimes) const {
+	int nFactor = nMinNFactor;
+	int64_t nDiff = nTimes - nStartTime;
+	if (nDiff < 0) nDiff=0;
+	for (int i =nLeap; i< nDiff; i += nLeap) nFactor +=  1;
+    if (nFactor > nMaxNFactor) return nMaxNFactor;
+
+    return nFactor;
+    }
+    int64_t Subsidy() const { return nSubsidy; }
+    const std::vector<string>& XadAddress() const { return vXadAddress; }
 protected:
     CChainParams() {}
 
@@ -76,7 +93,17 @@ protected:
     int nDefaultPort;
     int nRPCPort;
     CBigNum bnProofOfWorkLimit;
-    int nSubsidyHalvingInterval;
+    
+    int nSubsidyInterval;
+    int nBaseHeight;
+    int nMinReward;
+    int nMinNFactor;
+    int nMaxNFactor;
+    int nStartTime;
+    int nXadProp;
+    int64_t nSubsidy;
+    vector<string> vXadAddress;
+    int nLeap;
     string strDataDir;
     vector<CDNSSeedData> vSeeds;
     std::vector<unsigned char> base58Prefixes[MAX_BASE58_TYPES];

@@ -1,5 +1,6 @@
 // Copyright (c) 2009-2010 Satoshi Nakamoto
 // Copyright (c) 2009-2014 The Bitcoin developers
+// Copyright (c) 2014 The AditiCoin Developers
 // Distributed under the MIT/X11 software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
@@ -7,6 +8,17 @@
 
 #include "util.h"
 
+//Deva: Scrypt-Jane Implementation: https://github.com/floodyberry/scrypt-jane
+extern "C" {
+#include "scrypt-jane/scrypt-jane.h"
+}
+void scrypt_APJ(const char *input, char *output, unsigned char Nfactor) //DEVA N FACTOR
+{
+    return scrypt((const unsigned char*)input, 80,
+                  (const unsigned char*)input, 80,
+                  Nfactor, 0, 0, (unsigned char*)output, 32);
+}
+//Deva: ScryptJane End
 std::string COutPoint::ToString() const
 {
     return strprintf("COutPoint(%s, %u)", hash.ToString().substr(0,10), n);
@@ -64,7 +76,7 @@ uint256 CTxOut::GetHash() const
 
 std::string CTxOut::ToString() const
 {
-    return strprintf("CTxOut(nValue=%d.%08d, scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,30));
+    return strprintf("CTxOut(nValue=%d.%03d, scriptPubKey=%s)", nValue / COIN, nValue % COIN, scriptPubKey.ToString().substr(0,30));
 }
 
 void CTxOut::print() const
@@ -269,8 +281,10 @@ uint256 CBlock::CheckMerkleBranch(uint256 hash, const std::vector<uint256>& vMer
 
 void CBlock::print() const
 {
-    LogPrintf("CBlock(hash=%s, ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
+    LogPrintf("CBlock(hash=%s, PoW=%s, nFactor=%d ver=%d, hashPrevBlock=%s, hashMerkleRoot=%s, nTime=%u, nBits=%08x, nNonce=%u, vtx=%"PRIszu")\n",
         GetHash().ToString(),
+        GetPoWHash().ToString().substr(0,20),
+        Params().GetNFactor(nTime),
         nVersion,
         hashPrevBlock.ToString(),
         hashMerkleRoot.ToString(),
