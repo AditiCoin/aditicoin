@@ -1,5 +1,5 @@
 ---
-name: "bitcoin"
+name: "aditicoin"
 suites:
 - "precise"
 architectures:
@@ -18,8 +18,8 @@ packages:
 - "bsdmainutils"
 reference_datetime: "2013-06-01 00:00:00"
 remotes:
-- "url": "https://github.com/bitcoin/bitcoin.git"
-  "dir": "bitcoin"
+- "url": "https://github.com/aditicoin/aditicoin.git"
+  "dir": "aditicoin"
 files:
 - "bitcoin-deps-linux32-gitian-r4.zip"
 - "bitcoin-deps-linux64-gitian-r4.zip"
@@ -44,7 +44,7 @@ script: |
     ./configure "$@" --enable-upnp-default --prefix=$STAGING --with-protoc-bindir=$STAGING/host/bin --with-boost=$STAGING --disable-maintainer-mode --disable-dependency-tracking PKG_CONFIG_PATH="$STAGING/lib/pkgconfig" CPPFLAGS="-I$STAGING/include ${OPTFLAGS}" LDFLAGS="-L$STAGING/lib ${OPTFLAGS}" CXXFLAGS="-frandom-seed=bitcoin ${OPTFLAGS}" BOOST_CHRONO_EXTRALIBS="-lrt"
   }
   #
-  cd bitcoin
+  cd aditicoin
   ./autogen.sh
   do_configure
   make dist
@@ -70,12 +70,12 @@ script: |
   do_configure --bindir=$STATIC_BINDIR --disable-tests --enable-upnp-default --without-gui --disable-hardening
   make $MAKEOPTS
   make $MAKEOPTS install-strip
-  cp $STATIC_BINDIR/bitcoind $BINDIR/bitcoind.static
-  cp $STATIC_BINDIR/bitcoin-cli $BINDIR/bitcoin-cli.static
+  cp $STATIC_BINDIR/aditicoind $BINDIR/aditicoind.static
+  cp $STATIC_BINDIR/aditicoin-cli $BINDIR/aditicoin-cli.static
   
   # sort distribution tar file and normalize user/group/mtime information for deterministic output
   mkdir -p $OUTDIR/src
   rm -rf $TEMPDIR
   mkdir -p $TEMPDIR
   cd $TEMPDIR
-  tar -xvf $HOME/build/bitcoin/$DISTNAME | sort | tar --no-recursion -cT /dev/stdin --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 --mtime="$REFERENCE_DATETIME" | gzip -n > $OUTDIR/src/$DISTNAME
+  tar -xvf $HOME/build/aditicoin/$DISTNAME | sort | tar --no-recursion -cT /dev/stdin --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 --mtime="$REFERENCE_DATETIME" | gzip -n > $OUTDIR/src/$DISTNAME
