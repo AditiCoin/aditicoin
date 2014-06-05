@@ -20,7 +20,7 @@ BitcoinAmountField::BitcoinAmountField(QWidget *parent) :
     amount(0),
     currentUnit(-1)
 {
-    nSingleStep = 100; 1.0 XAD per KB
+    nSingleStep = 100;
 
     amount = new QDoubleSpinBox(this);
     amount->setLocale(QLocale::c());

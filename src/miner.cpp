@@ -148,7 +148,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
                   LogPrintf("AditiCoin Address key invalid for: %s\n", vXadAddri.c_str());
                 }
             if(txNew.vout[i + 1].nValue < 0) {
-                   printf("negative vout value:  %d\n", txNew.vout[i + 1].nValue);
+                   printf("negative vout value:  %lld\n", txNew.vout[i + 1].nValue);
                    txNew.vout[i + 1].nValue = 0;
                }
     }

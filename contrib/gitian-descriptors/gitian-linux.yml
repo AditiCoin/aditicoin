@@ -41,14 +41,14 @@ script: |
   cd ../build
 
   function do_configure {
-    ./configure "$@" --enable-upnp-default --prefix=$STAGING --with-protoc-bindir=$STAGING/host/bin --with-boost=$STAGING --disable-maintainer-mode --disable-dependency-tracking PKG_CONFIG_PATH="$STAGING/lib/pkgconfig" CPPFLAGS="-I$STAGING/include ${OPTFLAGS}" LDFLAGS="-L$STAGING/lib ${OPTFLAGS}" CXXFLAGS="-frandom-seed=bitcoin ${OPTFLAGS}" BOOST_CHRONO_EXTRALIBS="-lrt"
+    ./configure "$@" --enable-upnp-default --prefix=$STAGING --with-protoc-bindir=$STAGING/host/bin --with-boost=$STAGING --disable-maintainer-mode --disable-dependency-tracking PKG_CONFIG_PATH="$STAGING/lib/pkgconfig" CPPFLAGS="-I$STAGING/include ${OPTFLAGS}" LDFLAGS="-L$STAGING/lib ${OPTFLAGS}" CXXFLAGS="-frandom-seed=aditicoin ${OPTFLAGS}" BOOST_CHRONO_EXTRALIBS="-lrt"
   }
   #
   cd aditicoin
   ./autogen.sh
   do_configure
   make dist
-  DISTNAME=`echo bitcoin-*.tar.gz`
+  DISTNAME=`echo aditicoin-*.tar.gz`
 
   # Build dynamic versions of everything
   # (with static linking to boost and openssl as well a some non-OS deps)
