@@ -83,7 +83,7 @@ public:
         assert(hashGenesisBlock == uint256("0xf0d52aaac1d6b1779baf11f7b763cf95f27183d77c2988ae9111473c6099f4b9")); //Deva comment this while mining Genesis
         assert(genesis.hashMerkleRoot == uint256("0xdfa581bb7e3039782b92f3dc95e9037f3d8d6dc29c24995ae12f80943d111450"));
 
-        vSeeds.push_back(CDNSSeedData("xad.aditicoin.org", "seed.vps.aditicoin.org"));
+        vSeeds.push_back(CDNSSeedData("xad.aditicoin.org", "seed.aditicoin.org"));
        
         /*vSeeds.push_back(CDNSSeedData("dashjr.org", "dnsseed.bitcoin.dashjr.org"));
         vSeeds.push_back(CDNSSeedData("bitcoinstats.com", "seed.bitcoinstats.com"));
@@ -160,7 +160,7 @@ public:
 
         vFixedSeeds.clear();
         vSeeds.clear();
-        vSeeds.push_back(CDNSSeedData("xad.aditicoin.org", "seed.vps.aditicoin.org"));
+        vSeeds.push_back(CDNSSeedData("xad.aditicoin.org", "seed.aditicoin.org"));
 
 
         base58Prefixes[PUBKEY_ADDRESS] = list_of(30); // DEVA D = 30 
