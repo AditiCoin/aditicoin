@@ -179,6 +179,8 @@ Array RPCConvertValues(const std::string &strMethod, const std::vector<std::stri
     if (strMethod == "keypoolrefill"          && n > 0) ConvertTo<boost::int64_t>(params[0]);
     if (strMethod == "getrawmempool"          && n > 0) ConvertTo<bool>(params[0]);
     if (strMethod == "enforcecheckpoint"      && n > 0) ConvertTo<bool>(params[0]);
+    if (strMethod == "getcheckpoint"          && n > 0) ConvertTo<bool>(params[0]);
+    if (strMethod == "sendcheckpoint"         && n > 0) ConvertTo<bool>(params[0]);
     return params;
 }
 
