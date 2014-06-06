@@ -22,6 +22,7 @@ using namespace boost::assign;
 
 unsigned int pnSeed[] =
 {
+      0x34b4fb36,
 //    0x13f5094c, 0x7ab32648, 0x542e9fd5, 0x53136bc1, 0x7fdf51c0, 0x802197b2, 0xa2d2cc5b, 0x6b5f4bc0,
 };
 
