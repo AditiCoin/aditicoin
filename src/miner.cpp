@@ -112,17 +112,17 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
     if(!pblocktemplate.get())
         return NULL;
     CBlock *pblock = &pblocktemplate->block; // pointer for convenience
-    CBlockIndex* pindexPrev = chainActive.Tip();
+//    CBlockIndex* pindexPrev = chainActive.Tip();
 
     // Create coinbase tx
     CTransaction txNew;
     txNew.vin.resize(1);
     txNew.vin[0].prevout.SetNull();
-//    txNew.vout.resize(1);
-    const vector<string> &vXadAddr = Params().XadAddress();
-    txNew.vout.resize(vXadAddr.size() + 1);
+    txNew.vout.resize(1);
+/*    const vector<string> &vXadAddr = Params().XadAddress();
+    txNew.vout.resize(vXadAddr.size() + 1); */
     txNew.vout[0].scriptPubKey = scriptPubKeyIn;
-	// Prepare to pay beneficiaries
+/*	// Prepare to pay beneficiaries
     int64_t nFees = 0;
     int64_t minerValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
     int64_t blockValue = (100 * minerValue) / (100 + Params().XadProp());
@@ -151,7 +151,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
                    printf("negative vout value:  %ld\n", txNew.vout[i + 1].nValue);
                    txNew.vout[i + 1].nValue = 0;
                }
-    }
+    }  */
 
 
     // Add our coinbase tx as first transaction
@@ -175,7 +175,7 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
     nBlockMinSize = std::min(nBlockMaxSize, nBlockMinSize);
 
     // Collect memory pool transactions into the block
-    //int64_t nFees = 0; //Deva Declared earlier
+    int64_t nFees = 0; //Deva Declared earlier
     {
         LOCK2(cs_main, mempool.cs);
         CBlockIndex* pindexPrev = chainActive.Tip();
@@ -356,8 +356,8 @@ CBlockTemplate* CreateNewBlock(const CScript& scriptPubKeyIn)
         nLastBlockSize = nBlockSize;
         LogPrintf("CreateNewBlock(): total size %u\n", nBlockSize);
 
-//        pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
-	pblock->vtx[0].vout[0].nValue = blockValue; //Deva 
+        pblock->vtx[0].vout[0].nValue = GetBlockValue(pindexPrev->nHeight+1, nFees);
+//	pblock->vtx[0].vout[0].nValue = blockValue; //Deva 
         pblocktemplate->vTxFees[0] = -nFees;
 
         // Fill in header
